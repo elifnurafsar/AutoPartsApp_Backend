@@ -94,15 +94,4 @@ public class AutoPartService {
         return false;
     }
 
-    public boolean purchaseProduct(PurchaseInfoDTO purchaseInfo) {
-        Optional<AutoPart> ap = autoPartRepository.findProductByCode(purchaseInfo.getCode());
-        if(ap.isPresent() && ap.get().getStock() >= purchaseInfo.getNumber()){
-            int res = autoPartRepository.purchaseProduct(purchaseInfo);
-            if(res>0)
-                return true;
-            else return false;
-        }
-        return false;
-    }
-
 }

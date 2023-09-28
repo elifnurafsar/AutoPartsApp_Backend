@@ -7,5 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PurchaseInfoDTO {
     private String code;
-    private int number;
+    private String username;
+    private String address;
+    private int count;
 }

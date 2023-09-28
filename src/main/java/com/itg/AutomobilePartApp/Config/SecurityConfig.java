@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/AutoPart/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/User/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/User/get_by_email/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/Shop/shop/**").hasAuthority("USER")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
