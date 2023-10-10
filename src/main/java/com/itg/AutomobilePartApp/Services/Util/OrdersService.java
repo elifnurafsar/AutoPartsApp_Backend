@@ -26,7 +26,7 @@ public class OrdersService {
         Optional<AutoPart> ap = autoPartRepository.findProductByCode(purchaseInfo.getCode());
         if(ap.isPresent() && ap.get().getStock() >= purchaseInfo.getCount()){
             int res = orderRepository.purchaseProduct(purchaseInfo);
-            if(res>0)
+            if(res==0)
                 return true;
             else return false;
         }

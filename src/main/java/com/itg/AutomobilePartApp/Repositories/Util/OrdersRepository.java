@@ -19,9 +19,11 @@ public interface OrdersRepository extends JpaRepository<Orders, UUID> {
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query(value =
+    @Query(value = "BEGIN TRANSACTION;" +
+            "UPDATE autopart SET stock = stock -:#{#purchaseInfoDTO.count} WHERE id IN (SELECT id from autopart where code = :#{#purchaseInfoDTO.code}) ; "+
             "INSERT INTO \"orders\" (username, code, address, count, created_at) VALUES" +
-            "(:#{#purchaseInfoDTO.username}, :#{#purchaseInfoDTO.code}, :#{#purchaseInfoDTO.address}, :#{#purchaseInfoDTO.count}, NOW())", nativeQuery = true)
+            "(:#{#purchaseInfoDTO.username}, :#{#purchaseInfoDTO.code}, :#{#purchaseInfoDTO.address}, :#{#purchaseInfoDTO.count}, NOW()); " +
+            "END;", nativeQuery = true)
     int purchaseProduct(@Param("purchaseInfoDTO") PurchaseInfoDTO purchaseInfoDTO);
 
 

@@ -58,9 +58,4 @@ public class AutoPartController {
         return autoPartService.updateProduct(new_product.getCode(), new_product);
     }
 
-    /*@PutMapping("/purchase")
-    public boolean purchaseProduct(@RequestBody PurchaseInfoDTO purchaseInfo){
-        return autoPartService.purchaseProduct(purchaseInfo);
-    }*/
-
 }
