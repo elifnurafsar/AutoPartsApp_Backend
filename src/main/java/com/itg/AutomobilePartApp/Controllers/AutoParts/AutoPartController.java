@@ -49,7 +49,7 @@ public class AutoPartController {
     }
 
     @DeleteMapping("/{code}")
-    public boolean deleteProduct(@PathVariable("code") String code){
+    public boolean deleteProduct(@RequestParam("code") String code){
         return autoPartService.deleteProduct(code);
     }
 

@@ -1,9 +1,12 @@
 package com.itg.AutomobilePartApp.Controllers.User;
 
 import com.itg.AutomobilePartApp.DTO.User.AuthenticationDTO;
+import com.itg.AutomobilePartApp.DTO.User.CreditCardInfoDTO;
 import com.itg.AutomobilePartApp.DTO.User.UserDTO;
+import com.itg.AutomobilePartApp.Entities.Util.CreditCardInfo;
 import com.itg.AutomobilePartApp.Responses.User.AuthenticationResponse;
 import com.itg.AutomobilePartApp.Responses.User.UserResponse;
+import com.itg.AutomobilePartApp.Responses.Util.CreditCardInfoResponse;
 import com.itg.AutomobilePartApp.Services.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +25,12 @@ public class UserController {
         this.userService = _userService;
     }
 
-    @GetMapping
+    @GetMapping("/get_all")
     public List<UserResponse> getAllUsers(){
         return userService.getAll();
     }
 
-    @GetMapping("/get_by_email/")
+    @GetMapping("/get_by_email")
     public UserResponse getUserByEMail(@RequestParam("e_mail") String e_mail){
         return userService.getUserByUserName(e_mail);
     }
@@ -45,8 +48,18 @@ public class UserController {
     }
 
     @DeleteMapping( path = "/{e_mail}") //, consumes = "application/json", produces = "application/json")
-    public boolean DeleteUser(@PathVariable("e_mail") String e_mail){
+    public boolean DeleteUser(@RequestParam("e_mail") String e_mail){
         return userService.deleteUserByUserName(e_mail);
+    }
+
+    @PostMapping("/payment")
+    public ResponseEntity<CreditCardInfoResponse> addPaymentMethod(@RequestBody CreditCardInfoDTO creditCardInfoDTO){
+        return ResponseEntity.ok(userService.addCreditCard(creditCardInfoDTO));
+    }
+
+    @GetMapping("/my_payment_methods")
+    public List<CreditCardInfoResponse> getAllPaymentMethods(@RequestBody AuthenticationDTO user){
+        return userService.getAllCreditCards(user);
     }
 
 }

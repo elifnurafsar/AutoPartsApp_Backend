@@ -1,5 +1,7 @@
 package com.itg.AutomobilePartApp.Repositories.User;
 
+import com.itg.AutomobilePartApp.DTO.User.CreditCardInfoDTO;
+import com.itg.AutomobilePartApp.Entities.Util.CreditCardInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.itg.AutomobilePartApp.DTO.User.UserDTO;
 import com.itg.AutomobilePartApp.Entities.User;
@@ -39,6 +41,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> getAll();
 
     @Query(value = "SELECT * FROM \"users\" WHERE username IN " +
-            "SELECT username FROM authorities WHERE auth = ?1", nativeQuery = true)
+            "(SELECT username FROM authorities WHERE auth = ?1)", nativeQuery = true)
     List<User> getAllByRole(String role);
+
 }
