@@ -58,10 +58,13 @@ public class UserService {
         //CONTROL
         authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         User _user = userRepository.getByEmail(user.getUsername()).orElseThrow();
-        var jwt_token = jwtService.generateToken(_user);
-        return AuthenticationResponse.builder()
-                .token(jwt_token)
-                .build();
+        if(_user.isEnabled()){
+            var jwt_token = jwtService.generateToken(_user);
+            return AuthenticationResponse.builder()
+                    .token(jwt_token)
+                    .build();
+        }
+        else return null;
     }
 
 
@@ -108,6 +111,40 @@ public class UserService {
             else return null;
         }
         else return null;
+    }
+
+    public List<UserResponse> getBlockedAccounts() {
+        List<User> list = userRepository.getBlockedAccs();
+        return UserMapper.INSTANCE.entityListToResponseList(list);
+    }
+
+    public List<UserResponse> getBlockedAccountsByName(String e_mail) {
+        List<User> list = userRepository.filterBlockedAccs(e_mail);
+        return UserMapper.INSTANCE.entityListToResponseList(list);
+    }
+
+    public boolean BlockAccount(String e_mail) {
+        User _user = userRepository.getByEmail(e_mail).orElse(null);
+        if(_user != null){
+           int a = userRepository.BlockAccount(_user.getUsername());
+           if(a < 0)
+               return false;
+           return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean EnableAccount(String e_mail) {
+        User _user = userRepository.getByEmail(e_mail).orElse(null);
+        if(_user != null){
+            int a = userRepository.EnableAccount(_user.getUsername());
+            if(a < 0)
+                return false;
+            return true;
+        }
+        else
+            return false;
     }
 
     /*public List<UserResponse> getUserByRole(String role) {

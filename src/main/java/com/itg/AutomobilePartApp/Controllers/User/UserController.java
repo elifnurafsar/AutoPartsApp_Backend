@@ -35,6 +35,16 @@ public class UserController {
         return userService.getUserByUserName(e_mail);
     }
 
+    @GetMapping("/get_blocked_accounts")
+    public List<UserResponse> getBlockedAccounts(){
+        return userService.getBlockedAccounts();
+    }
+
+    @GetMapping("/filter_blocked_accounts")
+    public List<UserResponse> FilterBlockedAccounts(@RequestParam("e_mail") String e_mail){
+        return userService.getBlockedAccountsByName(e_mail);
+    }
+
     // REGISTER
     @PostMapping
     public ResponseEntity<AuthenticationResponse> createUser(@RequestBody UserDTO new_user){
@@ -47,7 +57,7 @@ public class UserController {
         return ResponseEntity.ok(userService.authenticate(user));
     }
 
-    @DeleteMapping( path = "/{e_mail}") //, consumes = "application/json", produces = "application/json")
+    @DeleteMapping //, consumes = "application/json", produces = "application/json")
     public boolean DeleteUser(@RequestParam("e_mail") String e_mail){
         return userService.deleteUserByUserName(e_mail);
     }
@@ -62,4 +72,13 @@ public class UserController {
         return userService.getAllCreditCards(user);
     }
 
+    @PutMapping("/block_account")
+    public boolean BlockAccount(@RequestParam("e_mail") String e_mail){
+        return userService.BlockAccount(e_mail);
+    }
+
+    @PutMapping("/enable_account")
+    public boolean enableAccount(@RequestParam("e_mail") String e_mail){
+        return userService.EnableAccount(e_mail);
+    }
 }

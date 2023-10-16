@@ -44,4 +44,21 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             "(SELECT username FROM authorities WHERE auth = ?1)", nativeQuery = true)
     List<User> getAllByRole(String role);
 
+    @Query(value = "SELECT * FROM \"users\" WHERE enabled = false; ", nativeQuery = true)
+    List<User> getBlockedAccs();
+
+    @Query(value = "SELECT * FROM \"users\" WHERE enabled = false AND  username ilike %?1%; ", nativeQuery = true)
+    List<User> filterBlockedAccs(String username);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value =
+            "UPDATE \"users\" SET enabled = false WHERE id IN ( SELECT id FROM  \"users\" WHERE \"username\" = ?1); " , nativeQuery = true)
+    int BlockAccount(String username);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value =
+            "UPDATE \"users\" SET enabled = true WHERE id IN ( SELECT id FROM  \"users\" WHERE \"username\" = ?1); ", nativeQuery = true)
+    int EnableAccount(String username);
 }
