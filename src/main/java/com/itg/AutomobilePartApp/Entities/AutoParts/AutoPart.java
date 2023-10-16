@@ -11,7 +11,7 @@ import java.util.UUID;
 @Table(name = "autopart", schema = "public")
 @Data
 @NoArgsConstructor
-public class AutoPart {
+public class AutoPart implements AutoPartI{
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -45,4 +45,13 @@ public class AutoPart {
         this.price = price;
     }
 
+    @Override
+    public int getDiscount() {
+        return 0;
+    }
+
+    @Override
+    public void setDiscount(int discount) {
+
+    }
 }
