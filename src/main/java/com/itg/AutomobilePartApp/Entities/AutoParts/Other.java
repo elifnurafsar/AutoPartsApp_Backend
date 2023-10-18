@@ -4,7 +4,9 @@ public class Other extends AutoPart implements AutoPartI {
 
     private int discount = 0;
 
-    public Other(){}
+    public Other(){
+        this.setCategory("other");
+    }
 
     public Other(String code, String name, String brand, int stock, String description, double price) {
         super(code, name, brand, "other", stock, description, price);

@@ -5,7 +5,7 @@ public class ExhaustSystemPart extends AutoPart implements AutoPartI {
     private int discount = 0;
 
     public ExhaustSystemPart(){
-
+        this.setCategory("exhaust system");
     }
 
     public ExhaustSystemPart(String code, String name, String brand, int stock, String description, double price) {

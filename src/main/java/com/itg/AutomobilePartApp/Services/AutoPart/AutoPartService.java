@@ -3,11 +3,14 @@ package com.itg.AutomobilePartApp.Services.AutoPart;
 import com.itg.AutomobilePartApp.DTO.AutoPart.AutoPartDTO;
 import com.itg.AutomobilePartApp.DTO.AutoPart.PurchaseInfoDTO;
 import com.itg.AutomobilePartApp.Entities.AutoParts.AutoPart;
+import com.itg.AutomobilePartApp.Entities.AutoParts.Config;
 import com.itg.AutomobilePartApp.Entities.AutoParts.FakeFactory;
 import com.itg.AutomobilePartApp.Mappers.AutoPart.AutoPartMapper;
 import com.itg.AutomobilePartApp.Repositories.AutoPart.AutoPartRepository;
 import com.itg.AutomobilePartApp.Responses.AutoPart.AutoPartResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,9 +18,10 @@ import java.util.*;
 @Service
 public class AutoPartService {
 
+    private ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
     private final AutoPartRepository autoPartRepository;
     private final Locale lang= new Locale("en");
-    private final FakeFactory factory = new FakeFactory();
+    private final FakeFactory factory = context.getBean(FakeFactory.class);
 
     @Autowired
     public AutoPartService(AutoPartRepository _autoPartRepository) {

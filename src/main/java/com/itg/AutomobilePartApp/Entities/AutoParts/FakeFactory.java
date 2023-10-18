@@ -1,40 +1,28 @@
 package com.itg.AutomobilePartApp.Entities.AutoParts;
+import lombok.Data;
+import org.springframework.stereotype.Component;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.HashMap;
 
-import java.util.EnumMap;
-
-@Service
+@Data
+@Component
 public class FakeFactory {
 
-    @Autowired
-    public ExhaustSystemPart exhaustSystemPart = new ExhaustSystemPart();
+    private HashMap<String, AutoPart> categoryAutoPartMap;
 
-    @Autowired
-    public FuelInjectionSystem fuelInjectionSystem = new FuelInjectionSystem();
-
-    @Autowired
-    public BrakeSystemPart brakeSystemPart = new BrakeSystemPart();
-
-    @Autowired
-    public Other other = new Other();
-
-    private EnumMap<Category, AutoPart> categoryAutoPartEnumMap;
-
-    public FakeFactory() {
-        this.categoryAutoPartEnumMap = new EnumMap<Category, AutoPart>(Category.class);
-        this.categoryAutoPartEnumMap.put(Category.brake_system, brakeSystemPart);
-        this.categoryAutoPartEnumMap.put(Category.fuel_and_injection_system, fuelInjectionSystem);
-        this.categoryAutoPartEnumMap.put(Category.exhaust_system, exhaustSystemPart);
-        this.categoryAutoPartEnumMap.put(Category.other, other);
+    public FakeFactory(BrakeSystemPart brakeSystemPart, FuelInjectionSystem fuelInjectionSystem, ExhaustSystemPart exhaustSystemPart, Other other) {
+        this.categoryAutoPartMap = new HashMap<>();
+        this.categoryAutoPartMap.put(Category.brake_system.name(), brakeSystemPart);
+        this.categoryAutoPartMap.put(Category.fuel_and_injection_system.name(), fuelInjectionSystem);
+        this.categoryAutoPartMap.put(Category.exhaust_system.name(), exhaustSystemPart);
+        this.categoryAutoPartMap.put(Category.other.name(), other);
     }
 
     public AutoPart getAutoPart(AutoPart autoPart) {
 
-        AutoPart obj = this.categoryAutoPartEnumMap.get(autoPart.getCategory());
+        AutoPart obj = this.categoryAutoPartMap.get(autoPart.getCategory());
         if(obj == null){
-            obj = this.categoryAutoPartEnumMap.get(Category.other);
+            obj = this.categoryAutoPartMap.get(Category.other.name());
         }
         obj.setCode(autoPart.getCode());
         obj.setDescription(autoPart.getDescription());
@@ -45,6 +33,6 @@ public class FakeFactory {
         if(obj.getDiscount() > 0)
             price = autoPart.getPrice() - (autoPart.getPrice()*obj.getDiscount()*1.0/100);
         obj.setPrice(price);
-        return autoPart;
+        return obj;
     }
 }

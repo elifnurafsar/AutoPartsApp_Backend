@@ -4,7 +4,9 @@ public class BrakeSystemPart extends AutoPart implements AutoPartI {
 
     private int discount = 0;
 
-    public BrakeSystemPart(){}
+    public BrakeSystemPart(){
+        this.setCategory("brake system");
+    }
 
     public BrakeSystemPart(String code, String name, String brand, int stock, String description, double price) {
         super(code, name, brand, "brake system", stock, description, price);

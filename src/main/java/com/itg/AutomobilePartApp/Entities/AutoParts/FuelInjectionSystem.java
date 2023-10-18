@@ -4,7 +4,9 @@ public class FuelInjectionSystem extends AutoPart implements AutoPartI {
 
     private int discount = 0;
 
-    public FuelInjectionSystem(){}
+    public FuelInjectionSystem(){
+        this.setCategory("fuel and injection system");
+    }
 
     public FuelInjectionSystem(String code, String name, String brand, int stock, String description, double price) {
         super(code, name, brand, "fuel and injection system", stock, description, price);
